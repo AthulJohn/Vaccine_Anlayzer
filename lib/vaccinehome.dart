@@ -121,15 +121,17 @@ class _VaccineHomeState extends State<VaccineHome> {
               ),
               Column(
                 children: [
-                  FutureBuilder(builder: (context, snap) {
-                    return Text(
-                      '${snap.data ?? 0}',
-                      style: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    );
-                  }),
+                  FutureBuilder(
+                      future: vaccineDatabase.getCompletedVaccinated(),
+                      builder: (context, snap) {
+                        return Text(
+                          '${snap.data ?? 0}',
+                          style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        );
+                      }),
                   const SizedBox(height: 10),
                   const Text(
                     'People Fully Vaccinated',

@@ -14,6 +14,7 @@ class FieldWithHeading extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(title),

@@ -27,7 +27,7 @@ class VaccineDatabase {
       await db.execute(
           'CREATE TABLE Vaccination (vcid INTEGER PRIMARY KEY,pid INTEGER ,vid INTEGER ,cid INTEGER, date TEXT, doseno INTEGER, completed VARCHAR(10), FOREIGN KEY (pid) REFERENCES Person(pid), FOREIGN KEY (vid) REFERENCES Vaccine(vid), FOREIGN KEY (cid) REFERENCES Center(cid))');
       await db.execute(
-          'CREATE TABLE Positived (pid INTEGER PRIMARY KEY, date TEXT, doseno INTEGER, FOREIGN KEY (pid) REFERENCES Person(pid))');
+          'CREATE TABLE Positived (pid INTEGER, date TEXT, doseno INTEGER, FOREIGN KEY (pid) REFERENCES Person(pid))');
     });
   }
 
@@ -57,12 +57,19 @@ class VaccineDatabase {
         await db.rawQuery('SELECT COUNT(DISTINCT(pid)) from Vaccination');
     int percent = vccount.first.values.first;
     vccount = await db.rawQuery('SELECT COUNT(*) from Person');
+    if (vccount.first.values.first == 0) return 0;
     double fpercent = (percent / vccount.first.values.first) * 100;
     return fpercent;
   }
 
   Future<int> getDoseCount() async {
     List<Map> vccount = await db.rawQuery('SELECT COUNT(*) from Vaccination');
+    return vccount.first.values.first;
+  }
+
+  Future<int> getCompletedVaccinated() async {
+    List<Map> vccount = await db
+        .rawQuery("SELECT COUNT(*) from Vaccination WHERE completed = 'true'");
     return vccount.first.values.first;
   }
 
@@ -76,8 +83,11 @@ class VaccineDatabase {
     await db.close();
   }
 
-  getValById(String table, int id, String colnm, List<String> cols) async {
-    List<Map> maps = await db
+  Future<Map<String, dynamic>?> getValById(
+      String table, int id, String colnm, List<String> cols) async {
+    List<Map<String, dynamic>> maps = await db
         .query(table, columns: cols, where: '$colnm = ?', whereArgs: [id]);
+    if (maps.isEmpty) return null;
+    return maps.first;
   }
 }
