@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:vaccineanalyzer/Addmenu.dart';
 import 'variables.dart';
 
 class VaccineHome extends StatefulWidget {
@@ -132,9 +133,12 @@ class _VaccineHomeState extends State<VaccineHome> {
             ),
             const SizedBox(height: 50),
             FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context) => AddMenu()));
+              },
               child: const Icon(
                 Icons.add,
+                size: 40,
               ),
             ),
           ],
