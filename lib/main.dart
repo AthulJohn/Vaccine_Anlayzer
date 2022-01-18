@@ -14,11 +14,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Vaccine Analyzer',
       theme: ThemeData(
-       
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
         primarySwatch: Colors.green,
       ),
       home: VaccineHome(),
     );
   }
 }
-

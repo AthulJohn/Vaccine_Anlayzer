@@ -15,7 +15,7 @@ class _VaccineHomeState extends State<VaccineHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
         title: const Text(
           'Vaccine Analyzer',
@@ -134,7 +134,8 @@ class _VaccineHomeState extends State<VaccineHome> {
             const SizedBox(height: 50),
             FloatingActionButton(
               onPressed: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context) => AddMenu()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddMenu()));
               },
               child: const Icon(
                 Icons.add,
