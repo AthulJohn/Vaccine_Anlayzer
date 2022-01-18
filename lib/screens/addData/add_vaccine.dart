@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaccineanalyzer/database/person_db.dart';
 import 'package:vaccineanalyzer/models/vaccine.dart';
 import 'package:vaccineanalyzer/widgets/buttons.dart';
 import 'package:vaccineanalyzer/widgets/images.dart';
@@ -61,8 +62,15 @@ class _VaccineBodyState extends State<VaccineBody> {
               vcn.noOfDoses = int.tryParse(str) ?? 0;
             }),
         CustomButton(
-          onpressed: () {
+          onpressed: () async {
+            await vaccineDatabase.inserttoTable(vcn, 'Vaccine', 'vid');
             Navigator.popUntil(context, (route) => route.isFirst);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Vaccine Added'),
+                duration: Duration(seconds: 1),
+              ),
+            );
           },
         )
       ],

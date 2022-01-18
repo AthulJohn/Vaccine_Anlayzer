@@ -13,4 +13,12 @@ class Vaccine {
     name = "";
     noOfDoses = 0;
   }
+  Map<String, Object?> toMap() {
+    return {
+      'name': name,
+      'company': company,
+      'country': country,
+      'noOfDoses': noOfDoses,
+    };
+  }
 }

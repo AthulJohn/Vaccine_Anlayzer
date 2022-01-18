@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaccineanalyzer/database/person_db.dart';
 import 'package:vaccineanalyzer/models/vaccination.dart';
 import 'package:vaccineanalyzer/widgets/buttons.dart';
 import 'package:vaccineanalyzer/widgets/images.dart';
@@ -43,12 +44,17 @@ class _VaccBodyState extends State<VaccBody> {
         FieldWithHeading(
             title: 'Person ID',
             onChanged: (str) {
-              vacc.pid = str;
+              vacc.pid = int.tryParse(str) ?? 0;
             }),
         FieldWithHeading(
             title: 'Vaccine ID',
             onChanged: (str) {
-              vacc.vid = str;
+              vacc.vid = int.tryParse(str) ?? 0;
+            }),
+        FieldWithHeading(
+            title: 'Center ID',
+            onChanged: (str) {
+              vacc.cid = int.tryParse(str) ?? 0;
             }),
         DateSelector(
             title: 'Vaccination Date',
@@ -58,8 +64,20 @@ class _VaccBodyState extends State<VaccBody> {
         FieldWithHeading(
             title: 'Dose Number',
             onChanged: (str) {
-              vacc.doseno = str;
+              vacc.doseno = int.tryParse(str) ?? 0;
             }),
+        CustomButton(
+          onpressed: () async {
+            await vaccineDatabase.inserttoTable(vacc, 'Vaccination', 'vcid');
+            Navigator.popUntil(context, (route) => route.isFirst);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Vaccination Details Added'),
+                duration: Duration(seconds: 1),
+              ),
+            );
+          },
+        )
       ],
     );
   }
@@ -74,7 +92,7 @@ class DateSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 80,
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -88,11 +106,6 @@ class DateSelector extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(4),
               child: DatePickerField(title: title, onChanged: onChanged)),
-          CustomButton(
-            onpressed: () {
-              Navigator.popUntil(context, (route) => route.isFirst);
-            },
-          )
         ],
       ),
     );

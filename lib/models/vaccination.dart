@@ -1,5 +1,5 @@
 class Vaccination {
-  late String pid, vid, doseno;
+  late int pid, vid, cid, doseno;
   late DateTime date;
   Vaccination(
       {required this.pid,
@@ -7,9 +7,19 @@ class Vaccination {
       required this.date,
       required this.doseno});
   Vaccination.simple() {
-    pid = '';
-    vid = '';
+    pid = 0;
+    vid = 0;
     date = DateTime.now();
-    doseno = '';
+    doseno = 0;
+    cid = 0;
+  }
+  Map<String, Object?> toMap() {
+    return {
+      'pid': pid,
+      'vid': vid,
+      'cid': cid,
+      'date': date.toString().substring(0, 10),
+      'doseno': doseno,
+    };
   }
 }

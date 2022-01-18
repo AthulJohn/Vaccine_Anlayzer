@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vaccineanalyzer/vaccinehome.dart';
 
+import 'database/person_db.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -11,6 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    vaccineDatabase.initDB();
     return MaterialApp(
       title: 'Vaccine Analyzer',
       theme: ThemeData(

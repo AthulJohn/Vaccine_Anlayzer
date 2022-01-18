@@ -14,4 +14,14 @@ class Person {
     phone = '';
     age = 0;
   }
+
+  Map<String, Object?> toMap() {
+    return {
+      'name': name,
+      'gender': gender,
+      'district': district,
+      'phone': phone,
+      'age': age
+    };
+  }
 }

@@ -144,7 +144,7 @@ class _DatePickerFieldState extends State<DatePickerField> {
           });
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 5),
+          padding: const EdgeInsets.symmetric(vertical: 17.0, horizontal: 5),
           child: Text((dateTime ?? "Select Date").toString().substring(0, 11)),
         ));
   }

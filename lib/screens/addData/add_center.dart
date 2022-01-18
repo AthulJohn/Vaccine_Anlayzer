@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaccineanalyzer/database/person_db.dart';
 import 'package:vaccineanalyzer/models/center.dart';
 import 'package:vaccineanalyzer/widgets/buttons.dart';
 import 'package:vaccineanalyzer/widgets/images.dart';
@@ -50,7 +51,7 @@ class _CenterBodyState extends State<CenterBody> {
         FieldWithHeading(
             title: 'Place',
             onChanged: (str) {
-              cntr.name = str;
+              cntr.place = str;
             }),
         ColoredDropDown(
             title: 'District',
@@ -59,8 +60,15 @@ class _CenterBodyState extends State<CenterBody> {
               cntr.district = str ?? 'Eranakulam';
             }),
         CustomButton(
-          onpressed: () {
+          onpressed: () async {
+            await vaccineDatabase.inserttoTable(cntr, 'Center', 'cid');
             Navigator.popUntil(context, (route) => route.isFirst);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Vaccination Center Added'),
+                duration: Duration(seconds: 1),
+              ),
+            );
           },
         )
       ],

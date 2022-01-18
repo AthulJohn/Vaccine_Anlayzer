@@ -7,4 +7,11 @@ class VacCenter {
     district = '';
     place = '';
   }
+  Map<String, Object?> toMap() {
+    return {
+      'name': name,
+      'district': district,
+      'place': place,
+    };
+  }
 }

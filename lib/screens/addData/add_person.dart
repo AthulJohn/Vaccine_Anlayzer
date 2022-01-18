@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaccineanalyzer/database/person_db.dart';
 import 'package:vaccineanalyzer/models/person.dart';
 import 'package:vaccineanalyzer/variables.dart';
 import 'package:vaccineanalyzer/widgets/buttons.dart';
@@ -69,8 +70,15 @@ class _FormBodyState extends State<FormBody> {
               pers.district = str ?? 'Eranakulam';
             }),
         CustomButton(
-          onpressed: () {
+          onpressed: () async {
+            await vaccineDatabase.inserttoTable(pers, 'Person', 'pid');
             Navigator.popUntil(context, (route) => route.isFirst);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Person Added'),
+                duration: Duration(seconds: 1),
+              ),
+            );
           },
         )
       ],
