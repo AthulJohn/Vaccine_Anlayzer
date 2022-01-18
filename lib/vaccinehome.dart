@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vaccineanalyzer/addData/add_person.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'variables.dart';
 
@@ -13,7 +12,6 @@ class VaccineHome extends StatefulWidget {
 class _VaccineHomeState extends State<VaccineHome> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -82,7 +80,7 @@ class _VaccineHomeState extends State<VaccineHome> {
                 const Text(
                   'Doses Taken',
                   style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey),
                 ),
@@ -105,7 +103,7 @@ class _VaccineHomeState extends State<VaccineHome> {
                     const Text(
                       'People Vaccinated',
                       style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey),
                     ),
@@ -124,7 +122,7 @@ class _VaccineHomeState extends State<VaccineHome> {
                     const Text(
                       'People Fully Vaccinated',
                       style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Colors.grey),
                     ),
@@ -132,53 +130,16 @@ class _VaccineHomeState extends State<VaccineHome> {
                 ),
               ],
             ),
+            const SizedBox(height: 50),
+            FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(
+                Icons.add,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-/*
-Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                           Text(
-                            '$doses',
-                            style: const TextStyle(
-                                fontSize: 38,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Doses Taken',
-                            style:  TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            '$singdosecnt',
-                            style: const TextStyle(
-                                fontSize: 38,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'People Vaccinated',
-                            style:  TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey),
-                          ),
-                        ],
-                      ),
-
-*/
