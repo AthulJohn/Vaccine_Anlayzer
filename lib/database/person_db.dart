@@ -14,7 +14,7 @@ class VaccineDatabase {
     "cid": -1,
     "vcid": -1,
   };
-  void initDB() async {
+  Future<void> initDB() async {
     db = await openDatabase('vaccination_analysis.db', version: 1,
         onCreate: (Database db, int version) async {
       // When creating the db, create the table
@@ -23,9 +23,11 @@ class VaccineDatabase {
       await db.execute(
           'CREATE TABLE Vaccine (vid INTEGER PRIMARY KEY, name TEXT, company TEXT, country TEXT, doses INTEGER)');
       await db.execute(
-          'CREATE TABLE Center (cid INTEGER PRIMARY KEY, name TEXT, place TEXT, district TEXT)');
+          'CREATE TABLE Center (cid INTEGER PRIMARY KEY, name TEXT, place TEXT, district TEXT, sector TEXT)');
       await db.execute(
-          'CREATE TABLE Vaccination (vcid INTEGER PRIMARY KEY,pid INTEGER ,vid INTEGER ,cid INTEGER, date TEXT, doseno INTEGER, FOREIGN KEY (pid) REFERENCES Person(pid), FOREIGN KEY (vid) REFERENCES Vaccine(vid), FOREIGN KEY (cid) REFERENCES Center(cid))');
+          'CREATE TABLE Vaccination (vcid INTEGER PRIMARY KEY,pid INTEGER ,vid INTEGER ,cid INTEGER, date TEXT, doseno INTEGER, completed VARCHAR(10), FOREIGN KEY (pid) REFERENCES Person(pid), FOREIGN KEY (vid) REFERENCES Vaccine(vid), FOREIGN KEY (cid) REFERENCES Center(cid))');
+      await db.execute(
+          'CREATE TABLE Positived (pid INTEGER PRIMARY KEY, date TEXT, doseno INTEGER, FOREIGN KEY (pid) REFERENCES Person(pid))');
     });
   }
 
@@ -50,7 +52,32 @@ class VaccineDatabase {
     print(maps.toString());
   }
 
+  Future<double> getPercentage() async {
+    List<Map> vccount =
+        await db.rawQuery('SELECT COUNT(DISTINCT(pid)) from Vaccination');
+    int percent = vccount.first.values.first;
+    vccount = await db.rawQuery('SELECT COUNT(*) from Person');
+    double fpercent = (percent / vccount.first.values.first) * 100;
+    return fpercent;
+  }
+
+  Future<int> getDoseCount() async {
+    List<Map> vccount = await db.rawQuery('SELECT COUNT(*) from Vaccination');
+    return vccount.first.values.first;
+  }
+
+  Future<int> getVaccinatedPeopleCount() async {
+    List<Map> vccount =
+        await db.rawQuery('SELECT COUNT(DISTINCT(pid)) from Vaccination');
+    return vccount.first.values.first;
+  }
+
   void close() async {
     await db.close();
+  }
+
+  getValById(String table, int id, String colnm, List<String> cols) async {
+    List<Map> maps = await db
+        .query(table, columns: cols, where: '$colnm = ?', whereArgs: [id]);
   }
 }

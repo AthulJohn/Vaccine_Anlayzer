@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:vaccineanalyzer/Addmenu.dart';
+import 'package:vaccineanalyzer/database/person_db.dart';
 import 'variables.dart';
 
 class VaccineHome extends StatefulWidget {
@@ -15,7 +16,7 @@ class _VaccineHomeState extends State<VaccineHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
         title: const Text(
@@ -36,42 +37,51 @@ class _VaccineHomeState extends State<VaccineHome> {
                 fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey),
           ),
           const SizedBox(height: 35),
-          CircularPercentIndicator(
-            radius: 200,
-            lineWidth: 10.0,
-            animation: true,
-            percent: percent / 100,
-            progressColor: percent > 50 ? Colors.green : Colors.red,
-            center: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  '$percent%',
-                  style: const TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-                const Text(
-                  'Vaccinated',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
-                ),
-              ],
-            ),
-          ),
+          FutureBuilder<double>(
+              future: vaccineDatabase.getPercentage(),
+              builder: (context, snap) {
+                return CircularPercentIndicator(
+                  radius: 200,
+                  lineWidth: 10.0,
+                  animation: true,
+                  percent: snap.hasData ? snap.data! / 100 : 0,
+                  progressColor:
+                      (snap.data ?? 0) > 50 ? Colors.green : Colors.red,
+                  center: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${(snap.data ?? 0).toStringAsFixed(2)}%',
+                        style: const TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                      const Text(
+                        'Vaccinated',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                    ],
+                  ),
+                );
+              }),
           const SizedBox(height: 50),
           Column(
             children: [
-              Text(
-                '$doses',
-                style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black),
-              ),
+              FutureBuilder(
+                  future: vaccineDatabase.getDoseCount(),
+                  builder: (context, snap) {
+                    return Text(
+                      '${snap.data ?? 0}',
+                      style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    );
+                  }),
               const SizedBox(height: 10),
               const Text(
                 'Doses Taken',
@@ -88,13 +98,17 @@ class _VaccineHomeState extends State<VaccineHome> {
             children: [
               Column(
                 children: [
-                  Text(
-                    '$singdosecnt',
-                    style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
+                  FutureBuilder(
+                      future: vaccineDatabase.getVaccinatedPeopleCount(),
+                      builder: (context, snap) {
+                        return Text(
+                          '${snap.data ?? 0}',
+                          style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        );
+                      }),
                   const SizedBox(height: 10),
                   const Text(
                     'People Vaccinated',
@@ -107,13 +121,15 @@ class _VaccineHomeState extends State<VaccineHome> {
               ),
               Column(
                 children: [
-                  Text(
-                    '$fullycnt',
-                    style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
+                  FutureBuilder(builder: (context, snap) {
+                    return Text(
+                      '${snap.data ?? 0}',
+                      style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    );
+                  }),
                   const SizedBox(height: 10),
                   const Text(
                     'People Fully Vaccinated',
@@ -129,8 +145,9 @@ class _VaccineHomeState extends State<VaccineHome> {
           const SizedBox(height: 50),
           FloatingActionButton(
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AddMenu()));
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const AddMenu()))
+                  .then((value) => setState(() {}));
             },
             child: const Icon(
               Icons.add,

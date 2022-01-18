@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vaccineanalyzer/database/person_db.dart';
+import 'package:vaccineanalyzer/models/person.dart';
 import 'package:vaccineanalyzer/models/vaccination.dart';
 import 'package:vaccineanalyzer/widgets/buttons.dart';
 import 'package:vaccineanalyzer/widgets/images.dart';
@@ -45,17 +46,68 @@ class _VaccBodyState extends State<VaccBody> {
             title: 'Person ID',
             onChanged: (str) {
               vacc.pid = int.tryParse(str) ?? 0;
+              setState(() {});
             }),
+        if (vacc.pid != -1)
+          FutureBuilder<Map>(
+              future: vaccineDatabase.getValById(
+                  'People', vacc.pid, 'pid', ['name', 'age', 'gender']),
+              builder: (context, snap) {
+                return snap.hasData
+                    ? Column(
+                        children: [
+                          Text('Name: ${snap.data!['name']}'),
+                          Row(
+                            children: [
+                              Text('Age: ${snap.data!['age']}'),
+                              Text('Gender: ${snap.data!['gender']}'),
+                            ],
+                          )
+                        ],
+                      )
+                    : Container();
+              }),
         FieldWithHeading(
-            title: 'Vaccine ID',
-            onChanged: (str) {
-              vacc.vid = int.tryParse(str) ?? 0;
-            }),
+          title: 'Vaccine ID',
+          onChanged: (str) {
+            vacc.vid = int.tryParse(str) ?? 0;
+            setState(() {});
+          },
+        ),
+        if (vacc.pid != -1)
+          FutureBuilder<Map>(
+              future: vaccineDatabase
+                  .getValById('Vaccine', vacc.vid, 'vid', ['name']),
+              builder: (context, snap) {
+                return snap.hasData
+                    ? Column(
+                        children: [
+                          Text('Name: ${snap.data!['name']}'),
+                        ],
+                      )
+                    : Container();
+              }),
         FieldWithHeading(
-            title: 'Center ID',
-            onChanged: (str) {
-              vacc.cid = int.tryParse(str) ?? 0;
-            }),
+          title: 'Center ID',
+          onChanged: (str) {
+            vacc.cid = int.tryParse(str) ?? 0;
+            setState(() {});
+          },
+        ),
+        if (vacc.cid != -1)
+          FutureBuilder<Map>(
+              future: vaccineDatabase
+                  .getValById('Center', vacc.cid, 'cid', ['name', 'place']),
+              builder: (context, snap) {
+                return snap.hasData
+                    ? Column(
+                        children: [
+                          Text('Name: ${snap.data!['name']}'),
+                          Text('Place: ${snap.data!['place']}'),
+                        ],
+                      )
+                    : Container();
+              }),
         DateSelector(
             title: 'Vaccination Date',
             onChanged: (str) {
