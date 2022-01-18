@@ -2,10 +2,11 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:vaccineanalyzer/addData/add_center.dart';
-import 'package:vaccineanalyzer/addData/add_person.dart';
-import 'package:vaccineanalyzer/addData/add_vaccination.dart';
-import 'package:vaccineanalyzer/addData/add_vaccine.dart';
+
+import 'screens/addData/add_center.dart';
+import 'screens/addData/add_person.dart';
+import 'screens/addData/add_vaccination.dart';
+import 'screens/addData/add_vaccine.dart';
 
 class AddMenu extends StatefulWidget {
   const AddMenu({Key? key}) : super(key: key);
