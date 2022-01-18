@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vaccineanalyzer/addData/add_person.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'variables.dart';
 
@@ -12,6 +13,7 @@ class VaccineHome extends StatefulWidget {
 class _VaccineHomeState extends State<VaccineHome> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
