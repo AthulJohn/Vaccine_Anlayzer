@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vaccineanalyzer/widgets/images.dart';
 import 'package:vaccineanalyzer/widgets/inputwidgets.dart';
 
-class AddPerson extends StatelessWidget {
-  const AddPerson({Key? key}) : super(key: key);
+class AddVaccine extends StatelessWidget {
+  const AddVaccine({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class AddPerson extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text(
-            'Add Person',
+            'Add Vaccine',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           ),
           elevation: 0,
@@ -19,12 +19,11 @@ class AddPerson extends StatelessWidget {
         ),
         body: ListView(
           children: const [
-            ImageBanner(),
-            FieldWithHeading(title: 'Name'),
-            FieldWithHeading(title: 'Age'),
-            ColoredDropDown(title: 'Gender', vals: ['Male', 'Female']),
-            FieldWithHeading(title: 'Phone Number'),
-            FieldWithHeading(title: 'District'),
+            ImageBanner('vaccine'),
+            FieldWithHeading(title: 'Vaccine Name'),
+            FieldWithHeading(title: 'Country'),
+            FieldWithHeading(title: 'Company'),
+            FieldWithHeading(title: 'Number of Doses'),
           ],
         ));
   }

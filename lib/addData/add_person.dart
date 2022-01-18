@@ -19,7 +19,7 @@ class AddPerson extends StatelessWidget {
         ),
         body: ListView(
           children: const [
-            ImageBanner(),
+            ImageBanner('person'),
             FieldWithHeading(title: 'Name'),
             FieldWithHeading(title: 'Age'),
             ColoredDropDown(title: 'Gender', vals: ['Male', 'Female']),
