@@ -10,6 +10,7 @@ class AddCenter extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           title: const Text(
             'Add Vaccination Center',
             style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),

@@ -15,6 +15,7 @@ class _VaccineHomeState extends State<VaccineHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
         title: const Text(
