@@ -27,7 +27,7 @@ class VaccineDatabase {
       await db.execute(
           'CREATE TABLE Vaccination (vcid INTEGER PRIMARY KEY,pid INTEGER ,vid INTEGER ,cid INTEGER, date TEXT, doseno INTEGER, completed VARCHAR(10), FOREIGN KEY (pid) REFERENCES Person(pid), FOREIGN KEY (vid) REFERENCES Vaccine(vid), FOREIGN KEY (cid) REFERENCES Center(cid))');
       await db.execute(
-          'CREATE TABLE Positived (pid INTEGER, date TEXT, doseno INTEGER, FOREIGN KEY (pid) REFERENCES Person(pid))');
+          'CREATE TABLE Positived (pid INTEGER, date TEXT, doseno INTEGER, completedDose VARCHAR(10), FOREIGN KEY (pid) REFERENCES Person(pid))');
     });
   }
 
@@ -36,6 +36,14 @@ class VaccineDatabase {
     Map<String, dynamic> row = value.toMap();
     ind[id] = ind[id]! + 1;
     row.addAll({id: ind[id]});
+    await db.insert(table, row, conflictAlgorithm: ConflictAlgorithm.replace);
+
+    //TODO
+    getList(table);
+  }
+
+  Future<void> inserttoTableNoPrimaryKey(dynamic value, String table) async {
+    Map<String, dynamic> row = value.toMap();
     await db.insert(table, row, conflictAlgorithm: ConflictAlgorithm.replace);
 
     //TODO
@@ -77,6 +85,26 @@ class VaccineDatabase {
     List<Map> vccount =
         await db.rawQuery('SELECT COUNT(DISTINCT(pid)) from Vaccination');
     return vccount.first.values.first;
+  }
+
+  Future<double> getPositivePercent() async {
+    List<Map> vccount =
+        await db.rawQuery('SELECT COUNT(DISTINCT(pid)) from Positived');
+    int percent = vccount.first.values.first;
+    vccount = await db.rawQuery('SELECT COUNT(*) from Person');
+    if (vccount.first.values.first == 0) return 0;
+    double fpercent = (percent / vccount.first.values.first) * 100;
+    return fpercent;
+  }
+
+  Future<double> getFullyPositivePercent() async {
+    List<Map> vccount = await db.rawQuery(
+        "SELECT COUNT(DISTINCT(pid)) from Positived WHERE completedDose = 'true'");
+    int percent = vccount.first.values.first;
+    vccount = await db.rawQuery('SELECT COUNT(*) from Person');
+    if (vccount.first.values.first == 0) return 0;
+    double fpercent = (percent / vccount.first.values.first) * 100;
+    return fpercent;
   }
 
   void close() async {

@@ -7,6 +7,7 @@ import 'screens/addData/add_center.dart';
 import 'screens/addData/add_person.dart';
 import 'screens/addData/add_vaccination.dart';
 import 'screens/addData/add_vaccine.dart';
+import 'screens/addData/report_positive.dart';
 
 class AddMenu extends StatefulWidget {
   const AddMenu({Key? key}) : super(key: key);
@@ -32,18 +33,15 @@ class _AddMenuState extends State<AddMenu> {
           ),
         ),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            const Center(
-              child: Image(
-                image: AssetImage('assets/img1.png'),
-              ),
-            ),
-            const SizedBox(height: 25),
-            Column(
+      body: Column(
+        children: [
+          const Image(
+            image: AssetImage('assets/img1.png'),
+            fit: BoxFit.fitWidth,
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TextButton(
@@ -69,7 +67,7 @@ class _AddMenuState extends State<AddMenu> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 10),
                 TextButton(
                   // ignore: prefer_const_constructors
                   style: ButtonStyle(
@@ -93,7 +91,7 @@ class _AddMenuState extends State<AddMenu> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 10),
                 TextButton(
                   // ignore: prefer_const_constructors
                   style: ButtonStyle(
@@ -111,7 +109,7 @@ class _AddMenuState extends State<AddMenu> {
                             builder: (context) => AddVaccination()));
                   },
                   child: const Text(
-                    'Add Vaccine',
+                    'Add A Vaccination',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -119,7 +117,7 @@ class _AddMenuState extends State<AddMenu> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 10),
                 TextButton(
                   // ignore: prefer_const_constructors
                   style: ButtonStyle(
@@ -135,7 +133,33 @@ class _AddMenuState extends State<AddMenu> {
                         MaterialPageRoute(builder: (context) => AddVaccine()));
                   },
                   child: const Text(
-                    'Add a Vaccine Company',
+                    'Add a Vaccine',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextButton(
+                  // ignore: prefer_const_constructors
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
+                    // ignore: prefer_const_constructors
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.all(25),
+                    ),
+                  ),
+
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReportPositive()));
+                  },
+                  child: const Text(
+                    'Report a Positive Patient',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -145,8 +169,8 @@ class _AddMenuState extends State<AddMenu> {
                 )
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -32,7 +32,7 @@ class _VaccineHomeState extends State<VaccineHome> {
         children: [
           const SizedBox(height: 30),
           const Text(
-            'Current Vaccination Status',
+            '   Current Vaccination Status',
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey),
           ),
@@ -145,18 +145,69 @@ class _VaccineHomeState extends State<VaccineHome> {
             ],
           ),
           const SizedBox(height: 50),
-          FloatingActionButton(
-            onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const AddMenu()))
-                  .then((value) => setState(() {}));
-            },
-            child: const Icon(
-              Icons.add,
-              size: 40,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  FutureBuilder(
+                      future: vaccineDatabase.getPositivePercent(),
+                      builder: (context, snap) {
+                        return Text(
+                          '${snap.data ?? 0}',
+                          style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        );
+                      }),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Positive Percentage',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  FutureBuilder(
+                      future: vaccineDatabase.getCompletedVaccinated(),
+                      builder: (context, snap) {
+                        return Text(
+                          '${snap.data ?? 0}',
+                          style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black),
+                        );
+                      }),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Fully Vaccinated Positive Percentage',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AddMenu()))
+              .then((value) => setState(() {}));
+        },
+        child: const Icon(
+          Icons.add,
+          size: 40,
+        ),
       ),
     );
   }
