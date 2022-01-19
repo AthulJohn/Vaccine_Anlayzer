@@ -13,16 +13,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    vaccineDatabase.initDB();
-    return MaterialApp(
-      title: 'Vaccine Analyzer',
-      theme: ThemeData(
-        iconTheme: const IconThemeData(
-          color: Colors.black,
-        ),
-        primarySwatch: Colors.green,
-      ),
-      home: VaccineHome(),
-    );
+    return FutureBuilder(
+        future: vaccineDatabase.initDB(),
+        builder: (context, snap) {
+          return snap.connectionState != ConnectionState.done
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : MaterialApp(
+                  title: 'Vaccine Analyzer',
+                  theme: ThemeData(
+                    iconTheme: const IconThemeData(
+                      color: Colors.black,
+                    ),
+                    primarySwatch: Colors.green,
+                  ),
+                  home: VaccineHome(),
+                );
+        });
   }
 }

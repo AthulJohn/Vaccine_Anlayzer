@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vaccineanalyzer/database/person_db.dart';
+import 'package:vaccineanalyzer/models/person.dart';
 import 'package:vaccineanalyzer/models/vaccination.dart';
 import 'package:vaccineanalyzer/widgets/buttons.dart';
 import 'package:vaccineanalyzer/widgets/images.dart';
@@ -44,18 +45,77 @@ class _VaccBodyState extends State<VaccBody> {
         FieldWithHeading(
             title: 'Person ID',
             onChanged: (str) {
-              vacc.pid = int.tryParse(str) ?? 0;
+              vacc.pid = int.tryParse(str) ?? -1;
+              setState(() {});
             }),
+        if (vacc.pid != -1)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: FutureBuilder<Map<String, dynamic>?>(
+                future: vaccineDatabase.getValById(
+                    'Person', vacc.pid, 'pid', ['name', 'age', 'gender']),
+                builder: (context, snap) {
+                  return snap.hasData
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text('Name: ${snap.data!['name']}'),
+                            Row(
+                              children: [
+                                Text('Age: ${snap.data!['age']}'),
+                                const SizedBox(width: 18),
+                                Text('Gender: ${snap.data!['gender']}'),
+                              ],
+                            )
+                          ],
+                        )
+                      : Container();
+                }),
+          ),
         FieldWithHeading(
-            title: 'Vaccine ID',
-            onChanged: (str) {
-              vacc.vid = int.tryParse(str) ?? 0;
-            }),
+          title: 'Vaccine ID',
+          onChanged: (str) {
+            vacc.vid = int.tryParse(str) ?? -1;
+            setState(() {});
+          },
+        ),
+        if (vacc.pid != -1)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: FutureBuilder<Map<String, dynamic>?>(
+                future: vaccineDatabase
+                    .getValById('Vaccine', vacc.vid, 'vid', ['name']),
+                builder: (context, snap) {
+                  return snap.hasData
+                      ? Text('Name: ${snap.data!['name']}')
+                      : Container();
+                }),
+          ),
         FieldWithHeading(
-            title: 'Center ID',
-            onChanged: (str) {
-              vacc.cid = int.tryParse(str) ?? 0;
-            }),
+          title: 'Center ID',
+          onChanged: (str) {
+            vacc.cid = int.tryParse(str) ?? -1;
+            setState(() {});
+          },
+        ),
+        if (vacc.cid != -1)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: FutureBuilder<Map<String, dynamic>?>(
+                future: vaccineDatabase
+                    .getValById('Center', vacc.cid, 'cid', ['name', 'place']),
+                builder: (context, snap) {
+                  return snap.hasData
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text('Name: ${snap.data!['name']}'),
+                            Text('Place: ${snap.data!['place']}'),
+                          ],
+                        )
+                      : Container();
+                }),
+          ),
         DateSelector(
             title: 'Vaccination Date',
             onChanged: (str) {
@@ -66,6 +126,17 @@ class _VaccBodyState extends State<VaccBody> {
             onChanged: (str) {
               vacc.doseno = int.tryParse(str) ?? 0;
             }),
+        Row(
+          children: [
+            Checkbox(
+                value: vacc.completed,
+                onChanged: (val) {
+                  vacc.completed = val ?? false;
+                  setState(() {});
+                }),
+            const Text('Dosage Completed'),
+          ],
+        ),
         CustomButton(
           onpressed: () async {
             await vaccineDatabase.inserttoTable(vacc, 'Vaccination', 'vcid');
