@@ -36,6 +36,7 @@ class FieldWithHeading extends StatelessWidget {
   }
 }
 
+/////////////////////////////////////////////////////////////////////////
 class ColoredDropDown extends StatelessWidget {
   final List<String> vals;
   final String title;
@@ -110,6 +111,36 @@ class _DropDownWidgetState extends State<DropDownWidget> {
       hint: Text('Select ${widget.title}'),
       icon: Container(),
       underline: Container(),
+    );
+  }
+}
+
+/////////////////////////////////////////////////////////////////
+class DateSelector extends StatelessWidget {
+  final String title;
+  final void Function(DateTime) onChanged;
+  const DateSelector({Key? key, required this.title, required this.onChanged})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 80,
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(title),
+          Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color(0xFFEEEEEE),
+              ),
+              padding: const EdgeInsets.all(4),
+              child: DatePickerField(title: title, onChanged: onChanged)),
+        ],
+      ),
     );
   }
 }

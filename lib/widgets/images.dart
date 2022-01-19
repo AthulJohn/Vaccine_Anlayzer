@@ -8,6 +8,7 @@ Map<String, String> images = {
   'vaccination':
       'https://vaccinate.guam.gov/wp-content/uploads/2021/05/Untitled-design-5-480x535.png',
   'vaccine': 'https://coronavirus.utah.gov/wp-content/uploads/vaccines-1.png',
+  'positive': 'https://fitnessgenes.com/images/covid/virus-red.png',
   'center':
       'https://jacksoncountyor.org/Portals/11/EasyDNNnews/271629/img-fema_illustration_featured_coronavirus_standarded-mobile-center_graphic.png'
 };
