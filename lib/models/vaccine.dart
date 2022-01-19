@@ -18,7 +18,7 @@ class Vaccine {
       'name': name,
       'company': company,
       'country': country,
-      'noOfDoses': noOfDoses,
+      'doses': noOfDoses,
     };
   }
 }

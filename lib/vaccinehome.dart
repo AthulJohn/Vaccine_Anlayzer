@@ -13,6 +13,12 @@ class VaccineHome extends StatefulWidget {
 
 class _VaccineHomeState extends State<VaccineHome> {
   @override
+  void dispose() {
+    vaccineDatabase.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -174,7 +180,7 @@ class _VaccineHomeState extends State<VaccineHome> {
               Column(
                 children: [
                   FutureBuilder(
-                      future: vaccineDatabase.getCompletedVaccinated(),
+                      future: vaccineDatabase.getFullyPositivePercent(),
                       builder: (context, snap) {
                         return Text(
                           '${snap.data ?? 0}',
@@ -196,6 +202,44 @@ class _VaccineHomeState extends State<VaccineHome> {
               ),
             ],
           ),
+          const SizedBox(height: 50),
+          const Text(
+            '   Most Used Vaccines',
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey),
+          ),
+          const SizedBox(height: 10),
+          FutureBuilder<List<Map<String, dynamic>>>(
+              future: vaccineDatabase.getMostUsedVaccines(),
+              builder: (context, snap) {
+                if (snap.hasData) {
+                  return Column(children: [
+                    for (Map<String, dynamic> map in snap.data!)
+                      Row(
+                        children: [
+                          Text(
+                            '     ${map['name']} -',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(width: 50),
+                          Text(
+                            '${map['count']} doses',
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                  ]);
+                } else {
+                  return Container();
+                }
+              }),
+          const SizedBox(height: 50),
         ],
       ),
       floatingActionButton: FloatingActionButton(
