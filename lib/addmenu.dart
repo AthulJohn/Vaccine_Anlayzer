@@ -41,79 +41,75 @@ class _AddMenuState extends State<AddMenu> {
             fit: BoxFit.fitWidth,
           ),
           const SizedBox(height: 10),
-          Expanded(
-            child: Column(
+          SizedBox(
+            height: 125,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  height: 125,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      AddMenuOption(
-                        nextPage: AddPerson(),
-                        title: 'Person',
-                        image: 'person',
-                      ),
-                      AddMenuOption(
-                        nextPage: AddCenter(),
-                        title: 'Vaccination Centre',
-                        image: 'center',
-                      ),
-                    ],
-                  ),
+              children: const [
+                AddMenuOption(
+                  nextPage: AddPerson(),
+                  title: 'Person',
+                  image: 'person',
                 ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 125,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      AddMenuOption(
-                        nextPage: AddVaccination(),
-                        title: 'Vaccine',
-                        image: 'vaccine',
-                      ),
-                      AddMenuOption(
-                        nextPage: AddVaccination(),
-                        title: 'Vaccination',
-                        image: 'vaccination',
-                      ),
-                    ],
-                  ),
+                AddMenuOption(
+                  nextPage: AddCenter(),
+                  title: 'Vaccination Centre',
+                  image: 'center',
                 ),
-                const SizedBox(height: 10),
-                TextButton(
-                  // ignore: prefer_const_constructors
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red[400]),
-                    // ignore: prefer_const_constructors
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.all(25),
-                    ),
-                  ),
-
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ReportPositive()));
-                  },
-                  child: const Text(
-                    'Report a Positive Patient',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
               ],
             ),
           ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 125,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: const [
+                AddMenuOption(
+                  nextPage: AddVaccination(),
+                  title: 'Vaccine',
+                  image: 'vaccine',
+                ),
+                AddMenuOption(
+                  nextPage: AddVaccination(),
+                  title: 'Vaccination',
+                  image: 'vaccination',
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: TextButton(
+              // ignore: prefer_const_constructors
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red[400]),
+                // ignore: prefer_const_constructors
+                padding: MaterialStateProperty.all(
+                  const EdgeInsets.all(25),
+                ),
+              ),
+
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ReportPositive()));
+              },
+              child: const Text(
+                'Report a Positive Patient',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
