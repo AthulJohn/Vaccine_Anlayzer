@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:vaccineanalyzer/Addmenu.dart';
 import 'package:vaccineanalyzer/database/person_db.dart';
+import 'screens/search_page.dart';
 import 'variables.dart';
 
 class VaccineHome extends StatefulWidget {
@@ -13,12 +14,18 @@ class VaccineHome extends StatefulWidget {
 
 class _VaccineHomeState extends State<VaccineHome> {
   @override
+  void dispose() {
+    vaccineDatabase.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: const Text(
           'Vaccine Analyzer',
           style: TextStyle(
@@ -27,6 +34,22 @@ class _VaccineHomeState extends State<VaccineHome> {
             color: Colors.black,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -46,7 +69,7 @@ class _VaccineHomeState extends State<VaccineHome> {
                   animation: true,
                   percent: snap.hasData ? snap.data! / 100 : 0,
                   progressColor:
-                      (snap.data ?? 0) > 50 ? Colors.green : Colors.red,
+                      (snap.data ?? 0) > 50 ? Colors.teal[400] : Colors.red,
                   center: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -174,7 +197,7 @@ class _VaccineHomeState extends State<VaccineHome> {
               Column(
                 children: [
                   FutureBuilder(
-                      future: vaccineDatabase.getCompletedVaccinated(),
+                      future: vaccineDatabase.getFullyPositivePercent(),
                       builder: (context, snap) {
                         return Text(
                           '${snap.data ?? 0}',
@@ -196,9 +219,48 @@ class _VaccineHomeState extends State<VaccineHome> {
               ),
             ],
           ),
+          const SizedBox(height: 50),
+          const Text(
+            '   Most Used Vaccines',
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey),
+          ),
+          const SizedBox(height: 10),
+          FutureBuilder<List<Map<String, dynamic>>>(
+              future: vaccineDatabase.getMostUsedVaccines(),
+              builder: (context, snap) {
+                if (snap.hasData) {
+                  return Column(children: [
+                    for (Map<String, dynamic> map in snap.data!)
+                      Row(
+                        children: [
+                          Text(
+                            '     ${map['name']} -',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(width: 50),
+                          Text(
+                            '${map['count']} doses',
+                            style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey),
+                          ),
+                        ],
+                      ),
+                  ]);
+                } else {
+                  return Container();
+                }
+              }),
+          const SizedBox(height: 50),
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueGrey,
         onPressed: () {
           Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const AddMenu()))

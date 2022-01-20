@@ -107,7 +107,31 @@ class VaccineDatabase {
     return fpercent;
   }
 
-  void close() async {
+  Future<List<Map<String, dynamic>>> getMostUsedVaccines() async {
+    List<Map<String, dynamic>> vccount = await db.rawQuery(
+        "SELECT V.name AS name,Vc.count AS count  from (SELECT vid, COUNT(*) AS count FROM Vaccination GROUP BY vid)Vc,Vaccine V Where Vc.vid= V.vid ORDER BY Vc.count DESC LIMIT 5");
+    return vccount;
+  }
+
+  Future<List<Map<String, dynamic>>> getSearchedPerson(String name) async {
+    List<Map<String, dynamic>> maps =
+        await db.rawQuery("SELECT * FROM Person WHERE name LIKE '%$name%'");
+    return maps;
+  }
+
+  Future<List<Map<String, dynamic>>> getSearchedVaccine(String name) async {
+    List<Map<String, dynamic>> maps =
+        await db.rawQuery("SELECT * FROM Vaccine WHERE name LIKE '%$name%'");
+    return maps;
+  }
+
+  Future<List<Map<String, dynamic>>> getSearchedCenter(String name) async {
+    List<Map<String, dynamic>> maps =
+        await db.rawQuery("SELECT * FROM Center WHERE name LIKE '%$name%'");
+    return maps;
+  }
+
+  Future<void> close() async {
     await db.close();
   }
 

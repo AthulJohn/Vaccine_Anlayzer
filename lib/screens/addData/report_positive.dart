@@ -80,7 +80,7 @@ class _CenterBodyState extends State<CenterBody> {
               post.doseno = int.tryParse(str) ?? -1;
             }),
         DateSelector(
-            title: 'Vaccination Date',
+            title: 'Covid Confirmed Date',
             onChanged: (str) {
               post.date = str;
             }),

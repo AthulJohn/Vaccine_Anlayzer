@@ -59,6 +59,12 @@ class _CenterBodyState extends State<CenterBody> {
             onChanged: (str) {
               cntr.district = str ?? 'Eranakulam';
             }),
+        ColoredDropDown(
+            title: 'Sector',
+            vals: const ['Public', 'Private'],
+            onChanged: (str) {
+              cntr.sector = str ?? 'Public';
+            }),
         CustomButton(
           onpressed: () async {
             await vaccineDatabase.inserttoTable(cntr, 'Center', 'cid');
