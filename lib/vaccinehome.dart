@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:vaccineanalyzer/Addmenu.dart';
 import 'package:vaccineanalyzer/database/person_db.dart';
+import 'screens/search_page.dart';
 import 'variables.dart';
 
 class VaccineHome extends StatefulWidget {
@@ -23,8 +24,8 @@ class _VaccineHomeState extends State<VaccineHome> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: const Text(
           'Vaccine Analyzer',
           style: TextStyle(
@@ -33,6 +34,22 @@ class _VaccineHomeState extends State<VaccineHome> {
             color: Colors.black,
           ),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -52,7 +69,7 @@ class _VaccineHomeState extends State<VaccineHome> {
                   animation: true,
                   percent: snap.hasData ? snap.data! / 100 : 0,
                   progressColor:
-                      (snap.data ?? 0) > 50 ? Colors.green : Colors.red,
+                      (snap.data ?? 0) > 50 ? Colors.teal[400] : Colors.red,
                   center: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -243,6 +260,7 @@ class _VaccineHomeState extends State<VaccineHome> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueGrey,
         onPressed: () {
           Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const AddMenu()))
