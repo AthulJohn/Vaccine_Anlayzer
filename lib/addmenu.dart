@@ -68,7 +68,7 @@ class _AddMenuState extends State<AddMenu> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: const [
                 AddMenuOption(
-                  nextPage: AddVaccination(),
+                  nextPage: AddVaccine(),
                   title: 'Vaccine',
                   image: 'vaccine',
                 ),

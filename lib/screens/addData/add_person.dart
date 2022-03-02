@@ -41,7 +41,7 @@ class _FormBodyState extends State<FormBody> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        const ImageBanner('modi'),
+        const ImageBanner('person'),
         FieldWithHeading(
             title: 'Name',
             onChanged: (str) {
